@@ -20,7 +20,7 @@ const Stars = ({ n=0, size=14, onClick }) =>
 const pct2c = v => v>=90?G.green:v>=65?G.gold:G.red;
 const def2c = v => v<=50?G.green:v<=80?G.gold:G.red;
 
-const DEFAULT_PLAYERS = ["Skudd Muffin","ENGR .S. AWAN","BLOODY DESTROYr","SABI v1","Salauddin"];
+const DEFAULT_PLAYERS = ["SABI v1","ENGR .S. AWAN","BLOODY DESTROYr","Skudd Muffin","Salauddin"];
 
 const load  = async () => { try { const d = JSON.parse(localStorage.getItem("gbs_v4") || "null"); if (!d || !d.players?.length) return { wars: [], players: DEFAULT_PLAYERS }; return d; } catch { return { wars: [], players: DEFAULT_PLAYERS }; } };
 const save = async d => { try { localStorage.setItem("gbs_v4", JSON.stringify(d)); } catch {} };
