@@ -7,7 +7,6 @@ const G = {
   green:"#4caf50", red:"#e05040", blue:"#5da0e0", star:"#FFD700",
 };
 
-// ── tiny helpers ──────────────────────────────────────────────────────────────
 const Stars = ({ n=0, size=14, onClick }) =>
   <span style={{display:"inline-flex",gap:2,cursor:onClick?"pointer":"default"}}>
     {[0,1,2].map(i=>(
@@ -26,9 +25,6 @@ const DEFAULT_PLAYERS = ["Skudd Muffin","ENGR .S. AWAN","BLOODY DESTROYr","SABI 
 const load  = async () => { try { const d = JSON.parse(localStorage.getItem("gbs_v4") || "null"); if (!d || !d.players?.length) return { wars: [], players: DEFAULT_PLAYERS }; return d; } catch { return { wars: [], players: DEFAULT_PLAYERS }; } };
 const save = async d => { try { localStorage.setItem("gbs_v4", JSON.stringify(d)); } catch {} };
 
-// default 5 players from screenshots
-
-// ── leaderboard ───────────────────────────────────────────────────────────────
 function buildLB(wars){
   const m={};
   for(const w of wars) for(const p of w.entries||[]){
@@ -40,9 +36,6 @@ function buildLB(wars){
   return Object.values(m).sort((a,b)=>b.stars-a.stars||b.atks-a.atks);
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-// PLAYER ROW in war entry form
-// ══════════════════════════════════════════════════════════════════════════════
 function PlayerEntryRow({ name, entry, onChange }){
   const e = entry || {};
   const set = (k,v) => onChange({...e, name, [k]:v});
@@ -50,12 +43,12 @@ function PlayerEntryRow({ name, entry, onChange }){
   return(
     <div style={{background:G.panel,border:`1px solid ${G.border}44`,
       borderRadius:10,padding:"12px 14px",marginBottom:8}}>
-      {/* name */}
+      {}
       <div style={{fontFamily:"'Cinzel',serif",fontSize:13,fontWeight:700,
         color:G.gold,marginBottom:10}}>{name}</div>
 
       <div style={{display:"flex",gap:10,flexWrap:"wrap"}}>
-        {/* ATTACK */}
+        {}
         <div style={{flex:"1 1 160px",background:G.dark+"88",borderRadius:8,
           padding:"10px 12px",border:`1px solid #6b4e1644`}}>
           <div style={{fontSize:10,color:G.dim,letterSpacing:1,
@@ -82,7 +75,7 @@ function PlayerEntryRow({ name, entry, onChange }){
           </div>
         </div>
 
-        {/* DEFENSE */}
+        {}
         <div style={{flex:"1 1 160px",background:G.dark+"88",borderRadius:8,
           padding:"10px 12px",border:`1px solid #6b161644`}}>
           <div style={{fontSize:10,color:G.dim,letterSpacing:1,
@@ -134,9 +127,6 @@ function PlayerEntryRow({ name, entry, onChange }){
   );
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-// LEADERBOARD ROW
-// ══════════════════════════════════════════════════════════════════════════════
 function LBRow({ p, rank }){
   const medal = rank===1?"🥇":rank===2?"🥈":rank===3?"🥉":null;
   const avgPct = p.atks ? Math.round(p.pctSum/p.atks) : 0;
@@ -180,9 +170,6 @@ function LBRow({ p, rank }){
   );
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-// WAR SUMMARY CARD
-// ══════════════════════════════════════════════════════════════════════════════
 function WarSummaryCard({ war, onDelete }){
   const [open,setOpen]=useState(false);
   const totalStars = war.entries?.reduce((s,e)=>s+(e.atkStars||0),0)??0;
@@ -217,14 +204,14 @@ function WarSummaryCard({ war, onDelete }){
               marginBottom:5,border:`1px solid ${G.border}22`}}>
               <div style={{flex:1,fontFamily:"'Cinzel',serif",fontSize:12,
                 color:"#d4b060",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{e.name}</div>
-              {/* atk */}
+              {}
               <div style={{textAlign:"center",minWidth:80}}>
                 {e.atkStars!=null?(
                   <><Stars n={e.atkStars} size={11}/>
                   <span style={{fontSize:11,fontWeight:700,color:pct2c(e.atkPct||0),marginLeft:4}}>{e.atkPct||0}%</span></>
                 ):<span style={{fontSize:10,color:"#444"}}>—</span>}
               </div>
-              {/* def */}
+              {}
               <div style={{textAlign:"center",minWidth:90}}>
                 {e.defStars!=null?(
                   <><Stars n={e.defStars} size={11}/>
@@ -240,20 +227,15 @@ function WarSummaryCard({ war, onDelete }){
   );
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-// MAIN APP
-// ══════════════════════════════════════════════════════════════════════════════
 export default function App(){
   const [tab,setTab]           = useState("board");
   const [data,setData]         = useState({wars:[],players:DEFAULT_PLAYERS});
   const [loaded,setLoaded]     = useState(false);
 
-  // add war form state
   const [warName,setWarName]   = useState("");
-  const [entries,setEntries]   = useState({});   // { playerName: {atkStars,atkPct,defStars,defPct,defWon} }
+  const [entries,setEntries]   = useState({});   
   const [saved,setSaved]       = useState(false);
 
-  // manage players
   const [newPlayer,setNewPlayer] = useState("");
 
   useEffect(()=>{ load().then(d=>{ setData(d); setLoaded(true); }); },[]);
@@ -309,30 +291,30 @@ export default function App(){
         ::-webkit-scrollbar-thumb{background:#5a3d10;border-radius:2px}
       `}</style>
 
-      {/* HEADER */}
+      {}
       <div style={{background:`linear-gradient(180deg,#0a0f1a,${G.dark})`,
         borderBottom:`1px solid #1e3a5f88`,paddingBottom:0}}>
 
-        {/* top banner */}
+        {}
         <div style={{
           background:"linear-gradient(135deg,#0d1b2e 0%,#0a1628 50%,#0d1b2e 100%)",
           padding:"20px 16px 16px",
           position:"relative",overflow:"hidden",
         }}>
-          {/* bg glow blobs */}
+          {}
           <div style={{position:"absolute",top:-40,left:-40,width:200,height:200,
             borderRadius:"50%",background:"#1e4d8c22",filter:"blur(60px)",pointerEvents:"none"}}/>
           <div style={{position:"absolute",bottom:-60,right:-20,width:240,height:240,
             borderRadius:"50%",background:"#0e3a7a18",filter:"blur(80px)",pointerEvents:"none"}}/>
 
-          {/* org label */}
+          {}
           <div style={{textAlign:"center",fontSize:9,letterSpacing:5,
             color:"#3a6ea8",textTransform:"uppercase",marginBottom:10,fontFamily:"'Cinzel',serif"}}>
             Team Serenity · War Division</div>
 
-          {/* profile row */}
+          {}
           <div style={{display:"flex",alignItems:"center",gap:14,maxWidth:500,margin:"0 auto"}}>
-            {/* avatar */}
+            {}
             <div style={{
               width:64,height:64,borderRadius:"50%",flexShrink:0,
               border:"2px solid #2e6db4",
@@ -343,7 +325,7 @@ export default function App(){
                 style={{width:"100%",height:"100%",objectFit:"cover"}}/>
             </div>
 
-            {/* name + title */}
+            {}
             <div style={{flex:1,minWidth:0}}>
               <div style={{
                 fontFamily:"'Cinzel',serif",fontWeight:800,
@@ -353,10 +335,10 @@ export default function App(){
                 letterSpacing:1,lineHeight:1.1,
               }}>SABI | GBS ⚡</div>
               <div style={{fontSize:10,color:"#3a6ea8",letterSpacing:2,
-                textTransform:"uppercase",marginTop:3}}>Co-leader · Tournament Organizer</div>
+                textTransform:"uppercase",marginTop:3}}>Dev & Tourney Organizer</div>
             </div>
 
-            {/* title badge */}
+            {}
             <div style={{
               background:"linear-gradient(135deg,#0f2a4a,#0a1e38)",
               border:"1px solid #2e6db466",borderRadius:8,
@@ -369,7 +351,7 @@ export default function App(){
             </div>
           </div>
 
-          {/* title */}
+          {}
           <div style={{textAlign:"center",marginTop:14}}>
             <h1 style={{fontFamily:"'Cinzel',serif",
               fontSize:"clamp(14px,3.5vw,22px)",fontWeight:800,margin:0,
@@ -381,7 +363,7 @@ export default function App(){
           </div>
         </div>
 
-        {/* tabs */}
+        {}
         <div style={{display:"flex",background:"#080e18",borderTop:"1px solid #1e3a5f44"}}>
           <Tab id="board" icon={<Trophy size={14}/>} label="LEADERBOARD"/>
           <Tab id="wars"  icon={<Swords size={14}/>} label="WARS"/>
@@ -392,7 +374,7 @@ export default function App(){
 
       <div style={{maxWidth:680,margin:"0 auto",padding:"16px 12px 0"}}>
 
-        {/* ══ LEADERBOARD ══ */}
+        {}
         {tab==="board" && (
           <div>
             {data.wars.length===0?(
@@ -426,7 +408,7 @@ export default function App(){
           </div>
         )}
 
-        {/* ══ WARS ══ */}
+        {}
         {tab==="wars" && (
           <div>
             {data.wars.length===0?(
@@ -442,7 +424,7 @@ export default function App(){
           </div>
         )}
 
-        {/* ══ ADD WAR ══ */}
+        {}
         {tab==="add" && (
           <div>
             <div style={{background:G.card,border:`1px solid ${G.border}66`,
@@ -456,7 +438,7 @@ export default function App(){
                   borderRadius:8,color:"#e8d5a0",fontSize:14}}/>
             </div>
 
-            {/* player rows */}
+            {}
             <div style={{fontFamily:"'Cinzel',serif",fontSize:12,color:G.dim,
               letterSpacing:2,textTransform:"uppercase",marginBottom:10}}>
               Player Stats</div>
@@ -482,7 +464,7 @@ export default function App(){
           </div>
         )}
 
-        {/* ══ SQUAD MANAGEMENT ══ */}
+        {}
         {tab==="squad" && (
           <div>
             <div style={{background:G.card,border:`1px solid ${G.border}66`,
