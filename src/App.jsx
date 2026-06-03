@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Trophy, Swords, Plus, Users } from "lucide-react";
 
 const G = {
   gold:"#F4C430", dark:"#110d04", panel:"#1e1608",
@@ -20,7 +21,7 @@ const Stars = ({ n=0, size=14, onClick }) =>
 const pct2c = v => v>=90?G.green:v>=65?G.gold:G.red;
 const def2c = v => v<=50?G.green:v<=80?G.gold:G.red;
 
-const DEFAULT_PLAYERS = ["SABI v1","ENGR .S. AWAN","BLOODY DESTROYr","Skudd Muffin","Salauddin"];
+const DEFAULT_PLAYERS = ["Skudd Muffin","ENGR .S. AWAN","BLOODY DESTROYr","SABI v1","Salauddin"];
 
 const load  = async () => { try { const d = JSON.parse(localStorage.getItem("gbs_v4") || "null"); if (!d || !d.players?.length) return { wars: [], players: DEFAULT_PLAYERS }; return d; } catch { return { wars: [], players: DEFAULT_PLAYERS }; } };
 const save = async d => { try { localStorage.setItem("gbs_v4", JSON.stringify(d)); } catch {} };
@@ -300,7 +301,8 @@ export default function App(){
       fontFamily:"'Segoe UI',sans-serif",color:"#e8d5a0",paddingBottom:40}}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&display=swap');
-        *{box-sizing:border-box}
+        *{box-sizing:border-box;margin:0;padding:0}
+        html,body,#root{margin:0;padding:0;background:#110d04}
         input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none}
         ::-webkit-scrollbar{width:4px}
         ::-webkit-scrollbar-track{background:#110d04}
@@ -381,10 +383,10 @@ export default function App(){
 
         {/* tabs */}
         <div style={{display:"flex",background:"#080e18",borderTop:"1px solid #1e3a5f44"}}>
-          <Tab id="board" icon="🏆" label="LEADERBOARD"/>
-          <Tab id="wars"  icon="⚔️" label="WARS"/>
-          <Tab id="add"   icon="➕" label="ADD WAR"/>
-          <Tab id="squad" icon="👥" label="SQUAD"/>
+          <Tab id="board" icon={<Trophy size={14}/>} label="LEADERBOARD"/>
+          <Tab id="wars"  icon={<Swords size={14}/>} label="WARS"/>
+          <Tab id="add"   icon={<Plus size={14}/>} label="ADD WAR"/>
+          <Tab id="squad" icon={<Users size={14}/>} label="SQUAD"/>
         </div>
       </div>
 
@@ -395,7 +397,7 @@ export default function App(){
           <div>
             {data.wars.length===0?(
               <div style={{textAlign:"center",padding:"60px 0",color:G.dim}}>
-                <div style={{fontSize:44,marginBottom:12}}>🏆</div>
+                <Trophy size={44} color="#5a4520" style={{marginBottom:12}}/>
                 <div style={{fontFamily:"'Cinzel',serif",fontSize:14}}>No wars logged yet</div>
                 <div style={{fontSize:12,marginTop:6}}>Add your first war to see the leaderboard</div>
               </div>
@@ -429,7 +431,7 @@ export default function App(){
           <div>
             {data.wars.length===0?(
               <div style={{textAlign:"center",padding:"60px 0",color:G.dim}}>
-                <div style={{fontSize:44,marginBottom:12}}>⚔️</div>
+                <Swords size={44} color="#5a4520" style={{marginBottom:12}}/>
                 <div style={{fontFamily:"'Cinzel',serif",fontSize:14}}>No wars logged yet</div>
               </div>
             ):(
